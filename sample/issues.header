@@ -1,0 +1,25 @@
+HTTP/2 200 
+date: Mon, 11 Nov 2024 01:25:22 GMT
+content-type: application/json; charset=utf-8
+content-length: 114636
+cache-control: public, max-age=60, s-maxage=60
+vary: Accept,Accept-Encoding, Accept, X-Requested-With
+etag: "def5ebefc4c1596e67f4b7a3b3e57a583202b4bdaca5c5d7e29981496e6038eb"
+x-github-media-type: github.v3; format=json
+link: <https://api.github.com/repositories/453998731/issues?page=2>; rel="next", <https://api.github.com/repositories/453998731/issues?page=2>; rel="last"
+x-github-api-version-selected: 2022-11-28
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 53
+x-ratelimit-reset: 1731289326
+x-ratelimit-used: 7
+x-ratelimit-resource: core
+access-control-expose-headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset
+access-control-allow-origin: *
+strict-transport-security: max-age=31536000; includeSubdomains; preload
+x-frame-options: deny
+x-content-type-options: nosniff
+x-xss-protection: 0
+referrer-policy: origin-when-cross-origin, strict-origin-when-cross-origin
+content-security-policy: default-src 'none'
+x-github-request-id: FA33:BB8B3:1DD4B10:3A1A20E:67315D02
+server: github.com
