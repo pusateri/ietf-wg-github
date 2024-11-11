@@ -11,15 +11,15 @@ import json
 BASE_URL = "https://api.github.com/repos/"
 
 
-def request_issues(wg, issues_filename, sort, direction):
+def request_issues(owner, repo, issues_filename, sort, direction):
 
     if issues_filename:
         with open(issues_filename, 'r', encoding='UTF-8') as file:
             contents = str(file.read())
     else:
         req = Request(
-            BASE_URL + "ietf-wg-{}/{}/issues?sort={}&direction={}".format(
-                wg, wg, sort, direction
+            BASE_URL + "{}/{}/issues?sort={}&direction={}".format(
+                owner, repo, sort, direction
             ),
             headers={
                 "Accept": "application/vnd.github+json",
@@ -32,13 +32,13 @@ def request_issues(wg, issues_filename, sort, direction):
     return json.loads(contents)
 
 
-def request_labels(wg, labels_filename, number):
+def request_labels(owner, repo, labels_filename, number):
     if labels_filename:
         with open(labels_filename, 'r', encoding='UTF-8') as file:
             contents = str(file.read())
     else:
         req = Request(
-            BASE_URL + "ietf-wg-{}/{}/issues/{}/labels".format(wg, wg, number),
+            BASE_URL + "{}/{}/issues/{}/labels".format(owner, repo, number),
             headers={
                 "Accept": "application/vnd.github+json",
                 "X-GitHub-Api-Version": "2022-11-28",
@@ -50,13 +50,14 @@ def request_labels(wg, labels_filename, number):
     return json.loads(contents)
 
 
-def request_comments(wg, comments_filename):
+def request_comments(owner, repo, comments_filename):
     if comments_filename:
         with open(comments_filename, 'r', encoding='UTF-8') as file:
             contents = str(file.read())
     else:
         req = Request(
-            BASE_URL + "ietf-wg-{}/{}/issues/comments".format(wg, wg),
+            BASE_URL + "{}/{}/issues/comments".format(owner, repo),
+
             headers={
                 "Accept": "application/vnd.github+json",
                 "X-GitHub-Api-Version": "2022-11-28",
@@ -70,7 +71,8 @@ def request_comments(wg, comments_filename):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--wg", type=str, default="emailcore")
+    parser.add_argument("--owner", type=str, default="ietf-wg-emailcore")
+    parser.add_argument("--repo", type=str, default="emailcore")
     parser.add_argument("--comments-filename", type=str)
     parser.add_argument("--issues-filename", type=str)
     parser.add_argument("--labels-filename", type=str)
@@ -92,8 +94,8 @@ def main():
     elif args.sort_descending:
         direction = "desc"
 
-    issues = request_issues(args.wg, args.issues_filename, sort, direction)
-    # comments = request_comments(args.wg, args.comments_filename, sort, direction)
+    issues = request_issues(args.owner, args.repo, args.issues_filename, sort, direction)
+    # comments = request_comments(args.owner, args.repo, args.comments_filename, sort, direction)
     for issue in issues:
         user = issue.get("user")
         if user:
@@ -103,7 +105,7 @@ def main():
             if updated_str and created_str:
                 number = issue.get("number")
                 time.sleep(0.5)  # don't overrun github API
-                label_objs = request_labels(args.wg, args.labels_filename, number)
+                label_objs = request_labels(args.owner, args.repo, args.labels_filename, number)
                 labels = list(map(lambda label: label.get("name"), label_objs))
                 try:
                     updated = datetime.fromisoformat(updated_str)
