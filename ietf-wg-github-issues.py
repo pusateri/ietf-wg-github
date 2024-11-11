@@ -18,11 +18,12 @@ def request_issues(owner, repo, issues_filename, sort, direction):
             contents = str(file.read())
     else:
         req = Request(
-            BASE_URL + "{}/{}/issues?sort={}&direction={}".format(
+            BASE_URL + "{}/{}/issues?sort={}&direction={}&per_page=40".format(
                 owner, repo, sort, direction
             ),
             headers={
                 "Accept": "application/vnd.github+json",
+                "Authorization": "87f7811a9fde3055c99abc7e977172978745badf",
                 "X-GitHub-Api-Version": "2022-11-28",
             },
         )
@@ -41,6 +42,7 @@ def request_labels(owner, repo, labels_filename, number):
             BASE_URL + "{}/{}/issues/{}/labels".format(owner, repo, number),
             headers={
                 "Accept": "application/vnd.github+json",
+                "Authorization": "87f7811a9fde3055c99abc7e977172978745badf",
                 "X-GitHub-Api-Version": "2022-11-28",
             },
         )
@@ -60,6 +62,7 @@ def request_comments(owner, repo, comments_filename):
 
             headers={
                 "Accept": "application/vnd.github+json",
+                "Authorization": "87f7811a9fde3055c99abc7e977172978745badf",
                 "X-GitHub-Api-Version": "2022-11-28",
             },
         )
@@ -104,7 +107,7 @@ def main():
             created_str = issue.get("created_at")
             if updated_str and created_str:
                 number = issue.get("number")
-                time.sleep(0.5)  # don't overrun github API
+                time.sleep(1)  # don't overrun github API
                 label_objs = request_labels(args.owner, args.repo, args.labels_filename, number)
                 labels = list(map(lambda label: label.get("name"), label_objs))
                 try:
